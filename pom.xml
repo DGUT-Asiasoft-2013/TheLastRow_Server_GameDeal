@@ -282,6 +282,7 @@
 					</webApp>
 					<reload>automatic</reload>
 					<scanIntervalSeconds>1</scanIntervalSeconds>
+					<jvmArgs>-XX:PermSize=256M -XX:MaxPermSize=512M</jvmArgs>
 				</configuration>
 			</plugin>
 		</plugins>
