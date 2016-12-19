@@ -21,10 +21,12 @@ import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 import com.cloudage.membercenter.entity.Article;
 import com.cloudage.membercenter.entity.Comment;
+import com.cloudage.membercenter.entity.Payments;
 import com.cloudage.membercenter.entity.User;
 import com.cloudage.membercenter.service.IArticleService;
 import com.cloudage.membercenter.service.ICommentService;
 import com.cloudage.membercenter.service.ILikesService;
+import com.cloudage.membercenter.service.IPaymentsService;
 import com.cloudage.membercenter.service.IUserService;
 
 @RestController
@@ -42,6 +44,9 @@ public class APIController {
 
 	@Autowired
 	ILikesService likesService;
+	
+	@Autowired
+	IPaymentsService PaymentsService;
 
 	@RequestMapping(value = "/hello", method=RequestMethod.GET)
 	public @ResponseBody String hello(){
