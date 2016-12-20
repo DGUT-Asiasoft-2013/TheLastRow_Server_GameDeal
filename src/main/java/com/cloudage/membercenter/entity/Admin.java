@@ -9,12 +9,12 @@ import com.cloudage.membercenter.util.BaseEntity;
 public class Admin extends BaseEntity {
 	String account;
 	String passwordHash;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	public String getAccount() {
 		return account;
 	}
-	
+
 	public String getPasswordHash() {
 		return passwordHash;
 	}

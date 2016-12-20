@@ -8,6 +8,6 @@ public interface ICommentService {
 	Page<Comment> findCommentsOfArticle(int articleId, int page);
 
 	Comment save(Comment comment);
-	
+
 	int getCommentCountOfArticle(int articleId);
 }

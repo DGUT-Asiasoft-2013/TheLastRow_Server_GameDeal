@@ -44,23 +44,18 @@ public class APIController {
 
 	@Autowired
 	ILikesService likesService;
-	
+
 	@Autowired
 	IPaymentsService PaymentsService;
 
-	@RequestMapping(value = "/hello", method=RequestMethod.GET)
-	public @ResponseBody String hello(){
+	@RequestMapping(value = "/hello", method = RequestMethod.GET)
+	public @ResponseBody String hello() {
 		return "HELLO WORLD";
 	}
 
-	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public User register(
-			@RequestParam String account,
-			@RequestParam String passwordHash,
-			@RequestParam String email,
-			@RequestParam String name,
-			MultipartFile avatar,
-			HttpServletRequest request){
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public User register(@RequestParam String account, @RequestParam String passwordHash, @RequestParam String email,
+			@RequestParam String name, MultipartFile avatar, HttpServletRequest request) {
 
 		User user = new User();
 		user.setAccount(account);
@@ -68,12 +63,12 @@ public class APIController {
 		user.setEmail(email);
 		user.setName(name);
 
-		if(avatar!=null){
-			try{
+		if (avatar != null) {
+			try {
 				String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
-				FileUtils.copyInputStreamToFile(avatar.getInputStream(), new File(realPath,account+".png"));
-				user.setAvatar("upload/"+account+".png");
-			}catch (Exception e) {
+				FileUtils.copyInputStreamToFile(avatar.getInputStream(), new File(realPath, account + ".png"));
+				user.setAvatar("upload/" + account + ".png");
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -81,54 +76,45 @@ public class APIController {
 		return userService.save(user);
 	}
 
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public User login(
-			@RequestParam String account,
-			@RequestParam String passwordHash,
-			HttpServletRequest request){
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public User login(@RequestParam String account, @RequestParam String passwordHash, HttpServletRequest request) {
 
 		User user = userService.findByAccount(account);
-		if(user!=null && user.getPasswordHash().equals(passwordHash)){
+		if (user != null && user.getPasswordHash().equals(passwordHash)) {
 			HttpSession session = request.getSession(true);
 			session.setAttribute("uid", user.getId());
 			return user;
-		}else{
+		} else {
 			return null;
 		}
 	}
 
-	@RequestMapping(value="/me", method=RequestMethod.GET)
-	public User getCurrentUser(HttpServletRequest request){
+	@RequestMapping(value = "/me", method = RequestMethod.GET)
+	public User getCurrentUser(HttpServletRequest request) {
 		HttpSession session = request.getSession(true);
 		Integer uid = (Integer) session.getAttribute("uid");
 		return userService.findById(uid);
 	}
 
-	@RequestMapping(value="/passwordrecover", method=RequestMethod.POST)
-	public boolean resetPassword(
-			@RequestParam String email,
-			@RequestParam String passwordHash
-			){
+	@RequestMapping(value = "/passwordrecover", method = RequestMethod.POST)
+	public boolean resetPassword(@RequestParam String email, @RequestParam String passwordHash) {
 		User user = userService.findByEmail(email);
-		if(user==null){
+		if (user == null) {
 			return false;
-		}else{
+		} else {
 			user.setPasswordHash(passwordHash);
 			userService.save(user);
 			return true;
 		}
 	}
 
-	@RequestMapping(value="/articles/{userId}")
-	public List<Article> getArticlesByUserID(@PathVariable Integer userId){
+	@RequestMapping(value = "/articles/{userId}")
+	public List<Article> getArticlesByUserID(@PathVariable Integer userId) {
 		return articleService.findAllByAuthorId(userId);
 	}
 
-	@RequestMapping(value="/article",method=RequestMethod.POST)
-	public Article addArticle(
-			@RequestParam String title,
-			@RequestParam String text,
-			HttpServletRequest request){
+	@RequestMapping(value = "/article", method = RequestMethod.POST)
+	public Article addArticle(@RequestParam String title, @RequestParam String text, HttpServletRequest request) {
 		User currentUser = getCurrentUser(request);
 		Article article = new Article();
 		article.setAuthor(currentUser);
@@ -138,38 +124,32 @@ public class APIController {
 	}
 
 	@RequestMapping("/feeds/{page}")
-	public Page<Article> getFeeds(@PathVariable int page){
+	public Page<Article> getFeeds(@PathVariable int page) {
 		return articleService.getFeeds(page);
 	}
 
 	@RequestMapping("/feeds")
-	public Page<Article> getFeeds(){
+	public Page<Article> getFeeds() {
 		return getFeeds(0);
 	}
 
 	@RequestMapping("/article/{article_id}/comments/{page}")
-	public Page<Comment> getCommentsOfArticle(
-			@PathVariable int article_id,
-			@PathVariable int page){
+	public Page<Comment> getCommentsOfArticle(@PathVariable int article_id, @PathVariable int page) {
 		return commentService.findCommentsOfArticle(article_id, page);
 	}
 
 	@RequestMapping("/article/{article_id}/comments/count")
-	public int getCommentsCountOfArticle(@PathVariable int article_id){
+	public int getCommentsCountOfArticle(@PathVariable int article_id) {
 		return commentService.getCommentCountOfArticle(article_id);
 	}
 
 	@RequestMapping("/article/{article_id}/comments")
-	public Page<Comment> getCommentsOfArticle(
-			@PathVariable int article_id){
+	public Page<Comment> getCommentsOfArticle(@PathVariable int article_id) {
 		return commentService.findCommentsOfArticle(article_id, 0);
 	}
 
 	@RequestMapping(value = "/article/{article_id}/comments", method = RequestMethod.POST)
-	public Comment postComment(
-			@PathVariable int article_id,
-			@RequestParam String text,
-			HttpServletRequest request){
+	public Comment postComment(@PathVariable int article_id, @RequestParam String text, HttpServletRequest request) {
 		User me = getCurrentUser(request);
 		Article article = articleService.findOne(article_id);
 		Comment comment = new Comment();
@@ -180,63 +160,52 @@ public class APIController {
 	}
 
 	@RequestMapping("/article/{article_id}/likes")
-	public int countLikes(@PathVariable int article_id){
+	public int countLikes(@PathVariable int article_id) {
 		return likesService.countLikes(article_id);
 	}
-	
+
 	@RequestMapping("/article/{article_id}/isliked")
-	public boolean checkLiked(@PathVariable int article_id,HttpServletRequest request){
+	public boolean checkLiked(@PathVariable int article_id, HttpServletRequest request) {
 		User me = getCurrentUser(request);
 		return likesService.checkLiked(me.getId(), article_id);
 	}
 
-	@RequestMapping(value="/article/{article_id}/likes",method = RequestMethod.POST)
-	public int changeLikes(
-			@PathVariable int article_id,
-			@RequestParam boolean likes,
-			HttpServletRequest request
-			){
+	@RequestMapping(value = "/article/{article_id}/likes", method = RequestMethod.POST)
+	public int changeLikes(@PathVariable int article_id, @RequestParam boolean likes, HttpServletRequest request) {
 		User me = getCurrentUser(request);
 		Article article = articleService.findOne(article_id);
 
-		if(likes)
+		if (likes)
 			likesService.addLike(me, article);
 		else
 			likesService.removeLike(me, article);
-		
+
 		return likesService.countLikes(article_id);
 	}
 
 	@RequestMapping("article/s/{keyword}")
-	public Page<Article>searchArticlesWithKeyword(
-			@PathVariable String keyword,
-			@RequestParam(defaultValue="0")int page
-			){
-return articleService.searchTextWithKeyword(keyword,page);
+	public Page<Article> searchArticlesWithKeyword(@PathVariable String keyword,
+			@RequestParam(defaultValue = "0") int page) {
+		return articleService.searchTextWithKeyword(keyword, page);
 	}
+
 	@RequestMapping("/me/{user_id}/payments/{page}")
-	public Page<Payments> getPaymentsOfUser(
-			@PathVariable int user_id,
-			@PathVariable int page){
+	public Page<Payments> getPaymentsOfUser(@PathVariable int user_id, @PathVariable int page) {
 		return PaymentsService.findPaymentsOfUser(user_id, page);
 	}
 
 	@RequestMapping("/me/{user_id}/payments/count")
-	public int getPaymentsCountOfuser(@PathVariable int user_id){
+	public int getPaymentsCountOfuser(@PathVariable int user_id) {
 		return PaymentsService.getPaymentsCountOfUser(user_id);
 	}
 
-	@RequestMapping("/article/{article_id}/comments")
-	public Page<Payments> getPaymentsOfUser(
-			@PathVariable int user_id){
+	@RequestMapping("/user/{user_id}/payments")
+	public Page<Payments> getPaymentsOfUser(@PathVariable int user_id) {
 		return PaymentsService.findPaymentsOfUser(user_id, 0);
 	}
 
 	@RequestMapping(value = "/me/{user_id}/payments", method = RequestMethod.POST)
-	public Payments postPayments(
-			@PathVariable int user_id,
-			@RequestParam String text,
-			HttpServletRequest request){
+	public Payments postPayments(@PathVariable int user_id, @RequestParam String text, HttpServletRequest request) {
 		User me = getCurrentUser(request);
 		User user = PaymentsService.findOne(user_id);
 		Payments payments = new Payments();

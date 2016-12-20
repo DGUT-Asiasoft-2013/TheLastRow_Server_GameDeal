@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.cloudage.membercenter.entity.Admin;
 
 @Repository
-public interface IAdminRepository extends PagingAndSortingRepository<Admin, Integer>{
+public interface IAdminRepository extends PagingAndSortingRepository<Admin, Integer> {
 
 }

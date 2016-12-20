@@ -19,7 +19,7 @@ import com.cloudage.membercenter.repository.IArticleRepository;
 @Component
 @Service
 @Transactional
-public class DefaultArticleService implements IArticleService{
+public class DefaultArticleService implements IArticleService {
 	@Autowired
 	IArticleRepository articleRepo;
 
@@ -50,13 +50,10 @@ public class DefaultArticleService implements IArticleService{
 		return articleRepo.findOne(id);
 	}
 
-	
 	public Page<Article> searchTextWithKeyword(String keyword, int page) {
 		Sort sort = new Sort(Direction.DESC, "createDate");
 		PageRequest pageRequest = new PageRequest(page, 10, sort);
 		return articleRepo.searchTextWithKeyword(keyword, pageRequest);
 	}
 
-	
-	}
-
+}

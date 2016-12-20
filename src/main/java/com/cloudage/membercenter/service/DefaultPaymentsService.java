@@ -10,13 +10,13 @@ import com.cloudage.membercenter.entity.Payments;
 import com.cloudage.membercenter.entity.User;
 import com.cloudage.membercenter.repository.IPaymentsRepository;
 
-public class DefaultPaymentsService implements IPaymentsService{
+public class DefaultPaymentsService implements IPaymentsService {
 	@Autowired
 	IPaymentsRepository paymentsRepo;
-	
-	public Page<Payments> findPaymentsOfUser(int userId, int page){
+
+	public Page<Payments> findPaymentsOfUser(int userId, int page) {
 		Sort sort = new Sort(Direction.DESC, "createDate");
-		PageRequest pageReqeust = new PageRequest(page,8, sort);
+		PageRequest pageReqeust = new PageRequest(page, 8, sort);
 		return paymentsRepo.findAllOfPaymentsId(paymentsRepo, pageReqeust);
 	}
 
@@ -38,8 +38,4 @@ public class DefaultPaymentsService implements IPaymentsService{
 		return null;
 	}
 
-	
-
-	
-	}
-
+}

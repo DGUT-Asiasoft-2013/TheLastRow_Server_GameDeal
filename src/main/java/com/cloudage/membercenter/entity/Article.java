@@ -21,13 +21,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Article extends DateRecord {
-	
+
 	User author;
-	
+
 	String title;
 	String text;
-	
-	@ManyToOne(optional=false)
+
+	@ManyToOne(optional = false)
 	public User getAuthor() {
 		return author;
 	}
@@ -36,15 +36,15 @@ public class Article extends DateRecord {
 		this.author = author;
 	}
 
-//	@Transient
-//	public String getAuthorName(){
-//		return author.name;
-//	}
-//	
-//	@Transient
-//	public String getAuthorAvatar(){
-//		return author.avatar;
-//	}
+	// @Transient
+	// public String getAuthorName(){
+	// return author.name;
+	// }
+	//
+	// @Transient
+	// public String getAuthorAvatar(){
+	// return author.avatar;
+	// }
 
 	public String getTitle() {
 		return title;

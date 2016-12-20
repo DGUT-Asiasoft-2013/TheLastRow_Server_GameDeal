@@ -19,40 +19,38 @@ import com.cloudage.membercenter.service.IAdminService;
 public class RootController {
 	@Autowired
 	IAdminService adminService;
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(ModelMap model,HttpServletRequest request){
+	public String index(ModelMap model, HttpServletRequest request) {
 		return "redirect:/staff";
 	}
-	
+
 	@RequestMapping("/staff")
-	public String staff(ModelMap model){
+	public String staff(ModelMap model) {
 		return "staff";
 	}
-	
-	
-	
+
 	@RequestMapping("/users")
-	public String users(ModelMap model){
+	public String users(ModelMap model) {
 		return "users";
 	}
-	
+
 	@RequestMapping("/feeds")
-	public String feeds(){
+	public String feeds() {
 		return "feeds";
 	}
-	
+
 	@RequestMapping("/test")
-    public @ResponseBody String testSession(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Object obj = session.getAttribute("c");
-        int s = 0;
-        if(obj instanceof Integer){
-        	s = (int)obj;
-        }
-        
-        s += 1;
-        session.setAttribute("c", s);
-        return String.valueOf(s);
-    }
+	public @ResponseBody String testSession(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Object obj = session.getAttribute("c");
+		int s = 0;
+		if (obj instanceof Integer) {
+			s = (int) obj;
+		}
+
+		s += 1;
+		session.setAttribute("c", s);
+		return String.valueOf(s);
+	}
 }

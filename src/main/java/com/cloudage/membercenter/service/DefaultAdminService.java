@@ -17,7 +17,7 @@ public class DefaultAdminService implements IAdminService {
 
 	@Autowired
 	IAdminRepository adminRepo;
-	
+
 	@Override
 	public Admin create(String account, String passwordHash) {
 		// TODO Auto-generated method stub

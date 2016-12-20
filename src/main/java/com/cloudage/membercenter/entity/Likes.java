@@ -12,50 +12,51 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
 @Entity
-public class Likes{
-	
+public class Likes {
+
 	@Embeddable
-	public static class Key implements Serializable{
+	public static class Key implements Serializable {
 		User user;
 		Article article;
-		
-		@ManyToOne(optional=false)
+
+		@ManyToOne(optional = false)
 		public User getUser() {
 			return user;
 		}
-		
+
 		public void setUser(User user) {
 			this.user = user;
 		}
-		
-		@ManyToOne(optional=false)
+
+		@ManyToOne(optional = false)
 		public Article getArticle() {
 			return article;
 		}
+
 		public void setArticle(Article article) {
 			this.article = article;
 		}
-		
+
 		@Override
 		public boolean equals(Object obj) {
-			if(obj instanceof Key){
-				Key other = (Key)obj;
+			if (obj instanceof Key) {
+				Key other = (Key) obj;
 				return article.getId() == other.article.getId() && user.getId() == other.user.getId();
-			}else{
+			} else {
 				return false;
 			}
 		}
-		
+
 		@Override
 		public int hashCode() {
 			return article.getId();
 		}
 	}
-	
+
 	Key id;
 	Date createDate;
 
-	@Column(updatable=false)
+	@Column(updatable = false)
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -74,7 +75,7 @@ public class Likes{
 	}
 
 	@PrePersist
-	void onPrePersist(){
+	void onPrePersist() {
 		createDate = new Date();
 	}
 

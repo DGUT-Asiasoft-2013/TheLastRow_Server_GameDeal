@@ -18,13 +18,13 @@ public class DefaultLikesService implements ILikesService {
 
 	@Autowired
 	ILikesRepository likesRepo;
-	
+
 	@Override
 	public void addLike(User user, Article article) {
 		Likes.Key key = new Key();
 		key.setUser(user);
 		key.setArticle(article);
-		
+
 		Likes lk = new Likes();
 		lk.setId(key);
 		likesRepo.save(lk);
@@ -35,7 +35,7 @@ public class DefaultLikesService implements ILikesService {
 		Likes.Key key = new Key();
 		key.setUser(user);
 		key.setArticle(article);
-		
+
 		likesRepo.delete(key);
 	}
 
@@ -46,7 +46,7 @@ public class DefaultLikesService implements ILikesService {
 
 	@Override
 	public boolean checkLiked(int userId, int articleId) {
-		return likesRepo.checkLikesExsists(userId, articleId)>0;
+		return likesRepo.checkLikesExsists(userId, articleId) > 0;
 	}
 
 }

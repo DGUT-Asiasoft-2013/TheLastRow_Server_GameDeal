@@ -11,8 +11,8 @@ import javax.persistence.PreUpdate;
 public class DateRecord extends BaseEntity {
 	Date createDate;
 	Date editDate;
-	
-	@Column(updatable=false)
+
+	@Column(updatable = false)
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -28,14 +28,14 @@ public class DateRecord extends BaseEntity {
 	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
 	}
-	
+
 	@PreUpdate
-	void onPreUpdate(){
+	void onPreUpdate() {
 		editDate = new Date();
 	}
-	
+
 	@PrePersist
-	void onPrePersist(){
+	void onPrePersist() {
 		createDate = new Date();
 		editDate = new Date();
 	}
