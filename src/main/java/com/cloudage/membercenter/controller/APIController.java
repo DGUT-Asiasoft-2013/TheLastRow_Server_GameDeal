@@ -21,12 +21,16 @@ import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 import com.cloudage.membercenter.entity.Article;
 import com.cloudage.membercenter.entity.Comment;
+
 import com.cloudage.membercenter.entity.Payments;
+
 import com.cloudage.membercenter.entity.User;
 import com.cloudage.membercenter.service.IArticleService;
 import com.cloudage.membercenter.service.ICommentService;
 import com.cloudage.membercenter.service.ILikesService;
+
 import com.cloudage.membercenter.service.IPaymentsService;
+
 import com.cloudage.membercenter.service.IUserService;
 
 @RestController
@@ -45,17 +49,21 @@ public class APIController {
 	@Autowired
 	ILikesService likesService;
 
+
 	@Autowired
 	IPaymentsService PaymentsService;
 
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	public @ResponseBody String hello() {
+
 		return "HELLO WORLD";
 	}
+
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public User register(@RequestParam String account, @RequestParam String passwordHash, @RequestParam String email,
 			@RequestParam String name, MultipartFile avatar, HttpServletRequest request) {
+
 
 		User user = new User();
 		user.setAccount(account);
@@ -63,8 +71,10 @@ public class APIController {
 		user.setEmail(email);
 		user.setName(name);
 
+
 		if (avatar != null) {
 			try {
+
 				String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
 				FileUtils.copyInputStreamToFile(avatar.getInputStream(), new File(realPath, account + ".png"));
 				user.setAvatar("upload/" + account + ".png");
@@ -75,6 +85,7 @@ public class APIController {
 
 		return userService.save(user);
 	}
+
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public User login(@RequestParam String account, @RequestParam String passwordHash, HttpServletRequest request) {
@@ -213,5 +224,6 @@ public class APIController {
 		payments.setUser(user);
 		payments.setText(text);
 		return PaymentsService.save(payments);
+
 	}
 }

@@ -2,6 +2,7 @@ package com.cloudage.membercenter.repository;
 
 import java.util.List;
 
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,5 @@ public interface IArticleRepository extends PagingAndSortingRepository<Article, 
 
 	@Query("from Article article where article.text like %?1%")
 	Page<Article> searchTextWithKeyword(String keyword, Pageable page);
+
 }

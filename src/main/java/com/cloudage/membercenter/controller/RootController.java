@@ -21,9 +21,12 @@ public class RootController {
 	IAdminService adminService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
+
 	public String index(ModelMap model, HttpServletRequest request) {
+
 		return "redirect:/staff";
 	}
+
 
 	@RequestMapping("/staff")
 	public String staff(ModelMap model) {
@@ -53,4 +56,5 @@ public class RootController {
 		session.setAttribute("c", s);
 		return String.valueOf(s);
 	}
+
 }

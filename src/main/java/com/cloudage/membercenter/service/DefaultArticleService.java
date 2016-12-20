@@ -19,6 +19,7 @@ import com.cloudage.membercenter.repository.IArticleRepository;
 @Component
 @Service
 @Transactional
+
 public class DefaultArticleService implements IArticleService {
 	@Autowired
 	IArticleRepository articleRepo;
@@ -55,5 +56,6 @@ public class DefaultArticleService implements IArticleService {
 		PageRequest pageRequest = new PageRequest(page, 10, sort);
 		return articleRepo.searchTextWithKeyword(keyword, pageRequest);
 	}
+
 
 }

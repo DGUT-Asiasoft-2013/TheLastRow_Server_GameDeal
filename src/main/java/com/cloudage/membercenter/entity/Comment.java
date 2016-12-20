@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+
 public class Comment extends DateRecord {
 	String text;
 	User author;
@@ -40,4 +41,5 @@ public class Comment extends DateRecord {
 	public void setArticle(Article article) {
 		this.article = article;
 	}
+
 }

@@ -20,7 +20,9 @@ public class User extends BaseEntity {
 		return account;
 	}
 
+
 	@Column(nullable = false)
+
 	@JsonIgnore
 	public String getPasswordHash() {
 		return passwordHash;
@@ -36,7 +38,9 @@ public class User extends BaseEntity {
 		return avatar;
 	}
 
+
 	@Column(nullable = false, unique = true)
+
 	public String getEmail() {
 		return email;
 	}

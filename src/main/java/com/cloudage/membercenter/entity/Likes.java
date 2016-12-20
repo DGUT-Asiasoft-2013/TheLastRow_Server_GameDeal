@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 
 @Entity
+
 public class Likes {
 
 	@Embeddable
@@ -76,6 +77,8 @@ public class Likes {
 
 	@PrePersist
 	void onPrePersist() {
+
+
 		createDate = new Date();
 	}
 

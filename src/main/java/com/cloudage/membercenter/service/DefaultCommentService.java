@@ -21,6 +21,9 @@ public class DefaultCommentService implements ICommentService {
 	ICommentRepository commentRepo;
 
 	public Page<Comment> findCommentsOfArticle(int articleId, int page) {
+
+	
+
 		Sort sort = new Sort(Direction.DESC, "createDate");
 		PageRequest pageReqeust = new PageRequest(page, 10, sort);
 		return commentRepo.findAllOfArticleId(articleId, pageReqeust);

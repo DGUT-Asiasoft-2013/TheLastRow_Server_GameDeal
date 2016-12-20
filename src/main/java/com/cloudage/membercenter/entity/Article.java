@@ -46,6 +46,7 @@ public class Article extends DateRecord {
 	// return author.avatar;
 	// }
 
+
 	public String getTitle() {
 		return title;
 	}

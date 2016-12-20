@@ -19,6 +19,7 @@ public class DefaultLikesService implements ILikesService {
 	@Autowired
 	ILikesRepository likesRepo;
 
+
 	@Override
 	public void addLike(User user, Article article) {
 		Likes.Key key = new Key();
@@ -47,6 +48,9 @@ public class DefaultLikesService implements ILikesService {
 	@Override
 	public boolean checkLiked(int userId, int articleId) {
 		return likesRepo.checkLikesExsists(userId, articleId) > 0;
+
+	
+	
 	}
 
 }
