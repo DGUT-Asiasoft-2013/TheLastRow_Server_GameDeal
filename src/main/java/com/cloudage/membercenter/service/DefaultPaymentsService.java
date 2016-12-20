@@ -23,7 +23,7 @@ public class DefaultPaymentsService implements IPaymentsService{
 	@Override
 	public Payments save(Payments payments) {
 		// TODO Auto-generated method stub
-		return null;
+		return payments;
 	}
 
 	@Override
