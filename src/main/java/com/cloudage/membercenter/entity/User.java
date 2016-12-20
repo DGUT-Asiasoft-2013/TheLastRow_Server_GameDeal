@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.cloudage.membercenter.util.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class User extends BaseEntity{
@@ -19,6 +21,7 @@ public class User extends BaseEntity{
 	}
 	
 	@Column(nullable=false)
+	@JsonIgnore
 	public String getPasswordHash() {
 		return passwordHash;
 	}
@@ -33,7 +36,7 @@ public class User extends BaseEntity{
 		return avatar;
 	}
 	
-	@Column(nullable=false)
+	@Column(nullable=false,unique=true)
 	public String getEmail() {
 		return email;
 	}
