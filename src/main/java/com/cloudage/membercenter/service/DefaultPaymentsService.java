@@ -16,7 +16,7 @@ public class DefaultPaymentsService implements IPaymentsService{
 	
 	public Page<Payments> findPaymentsOfUser(int userId, int page){
 		Sort sort = new Sort(Direction.DESC, "createDate");
-		PageRequest pageReqeust = new PageRequest(page, 10, sort);
+		PageRequest pageReqeust = new PageRequest(page,8, sort);
 		return paymentsRepo.findAllOfPaymentsId(paymentsRepo, pageReqeust);
 	}
 
