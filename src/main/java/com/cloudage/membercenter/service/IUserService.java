@@ -10,6 +10,6 @@ public interface IUserService {
 
 	User findByEmail(String email);
 
-
+   
 	User findById(Integer id);
 }

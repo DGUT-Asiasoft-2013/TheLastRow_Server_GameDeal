@@ -218,10 +218,10 @@ public class APIController {
 	@RequestMapping(value = "/me/{user_id}/payments", method = RequestMethod.POST)
 	public Payments postPayments(@PathVariable int user_id, @RequestParam String text, HttpServletRequest request) {
 		User me = getCurrentUser(request);
-		User user = PaymentsService.findOne(user_id);
+		
 		Payments payments = new Payments();
 		payments.setAuthor(me);
-		payments.setUser(user);
+		
 		payments.setText(text);
 		return PaymentsService.save(payments);
 

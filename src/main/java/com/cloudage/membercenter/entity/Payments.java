@@ -1,12 +1,17 @@
 package com.cloudage.membercenter.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+
 import com.cloudage.membercenter.util.BaseEntity;
 
+@Entity
 public class Payments extends BaseEntity {
 	User user;
-	String cash;
-	String cashrecord;
+	String money;
+	String moneyrecord;
 
+	@ManyToOne(optional=false)
 	public User getUser() {
 		return user;
 	}
@@ -15,20 +20,24 @@ public class Payments extends BaseEntity {
 		this.user = user;
 	}
 
-	public String getCash() {
-		return cash;
+	
+
+	public String getMoney() {
+		return money;
 	}
 
-	public void setCash(String cash) {
-		this.cash = cash;
+	public void setMoney(String money) {
+		this.money = money;
 	}
 
-	public String getRecord() {
-		return cashrecord;
+	
+
+	public String getMoneyrecord() {
+		return moneyrecord;
 	}
 
-	public void setRecord(String record) {
-		this.cashrecord = record;
+	public void setMoneyrecord(String moneyrecord) {
+		this.moneyrecord = moneyrecord;
 	}
 
 	public void setText(String text) {

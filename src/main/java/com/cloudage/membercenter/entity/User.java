@@ -14,6 +14,7 @@ public class User extends BaseEntity {
 	String name;
 	String email;
 	String avatar;
+	String money;
 
 	@Column(unique = true)
 	public String getAccount() {
@@ -64,4 +65,15 @@ public class User extends BaseEntity {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+
+	@Column(nullable = false)
+	public String getMoney() {
+		return money;
+	}
+
+	@Column(nullable = false, unique = true)
+	public void setMoney(String money) {
+		this.money = money;
+	}
+	
 }

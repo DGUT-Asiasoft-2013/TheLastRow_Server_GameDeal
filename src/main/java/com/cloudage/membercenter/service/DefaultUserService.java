@@ -37,4 +37,5 @@ public class DefaultUserService implements IUserService {
 	public User findByEmail(String email) {
 		return userRepo.findUserByEmail(email);
 	}
+
 }
