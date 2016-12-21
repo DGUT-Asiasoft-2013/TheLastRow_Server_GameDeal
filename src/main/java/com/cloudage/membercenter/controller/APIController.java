@@ -23,7 +23,7 @@ import com.cloudage.membercenter.entity.Article;
 import com.cloudage.membercenter.entity.Comment;
 
 import com.cloudage.membercenter.entity.Payments;
-
+import com.cloudage.membercenter.entity.Recharge;
 import com.cloudage.membercenter.entity.User;
 import com.cloudage.membercenter.service.IArticleService;
 import com.cloudage.membercenter.service.ICommentService;
@@ -224,6 +224,32 @@ public class APIController {
 		
 		payments.setText(text);
 		return PaymentsService.save(payments);
+
+	}
+	@RequestMapping("/me/{user_id}/recharge/{page}")
+	public Page<Recharge> getRechargeOfUser(@PathVariable int user_id, @PathVariable int page) {
+		return Recharge.findrechargeOfUser(user_id, page);
+	}
+
+	@RequestMapping("/me/{user_id}/recharge/count")
+	public int getRechargeCountOfuser(@PathVariable int user_id) {
+		return Recharge.getrechargeCountOfUser(user_id);
+	}
+
+	@RequestMapping("/user/{user_id}/recharge")
+	public Page<Recharge> getRechargeOfUser(@PathVariable int user_id) {
+		return Recharge.findrechargeOfUser(user_id, 0);
+	}
+
+	@RequestMapping(value = "/me/{user_id}/Recharge", method = RequestMethod.POST)
+	public Recharge postRecharge(@PathVariable int user_id, @RequestParam String text, HttpServletRequest request) {
+		User me = getCurrentUser(request);
+		
+		Recharge recharge = new Recharge();
+		recharge.setAuthor(me);
+		
+		recharge.setText(text);
+		return rechargeService.save(recharge);
 
 	}
 }
