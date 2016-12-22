@@ -5,10 +5,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cloudage.membercenter.entity.Recharge;
 import com.cloudage.membercenter.repository.IRechargeRepository;
 
+@Component
+@Service
+@Transactional
 public class DefaultRechargeService implements IRechargeService {
 	@Autowired
 	IRechargeRepository rechargeRepo;
