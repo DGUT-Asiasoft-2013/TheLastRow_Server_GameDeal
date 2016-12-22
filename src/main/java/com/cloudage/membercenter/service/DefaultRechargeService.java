@@ -18,12 +18,12 @@ public class DefaultRechargeService implements IRechargeService {
 		PageRequest pageReqeust = new PageRequest(page, 8, sort);
 		return rechargeRepo.findAllOfUserId(userId, pageReqeust);
 	}
-
+@Override
 	public Recharge save(Recharge recharge) {
 		return rechargeRepo.save(recharge);
 	}
-
-	public int getIRechargeCountOfUser(int userId) {
+@Override
+	public int getRechargeCountOfUser(int userId) {
 		return rechargeRepo.rechargeCountOfUser(userId);
 	}
 

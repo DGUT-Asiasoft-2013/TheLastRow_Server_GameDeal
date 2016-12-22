@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
-import com.cloudage.membercenter.entity.Comment;
+
 import com.cloudage.membercenter.entity.Payments;
 import com.cloudage.membercenter.entity.User;
 import com.cloudage.membercenter.repository.IPaymentsRepository;

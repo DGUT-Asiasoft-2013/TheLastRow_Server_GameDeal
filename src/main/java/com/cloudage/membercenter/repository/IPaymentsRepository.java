@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.cloudage.membercenter.entity.Comment;
+
 import com.cloudage.membercenter.entity.Payments;
 
 public interface IPaymentsRepository extends PagingAndSortingRepository<Payments, Integer> {

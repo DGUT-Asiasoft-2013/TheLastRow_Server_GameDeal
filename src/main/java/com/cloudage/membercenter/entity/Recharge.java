@@ -1,9 +1,11 @@
 package com.cloudage.membercenter.entity;
 
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import com.cloudage.membercenter.util.BaseEntity;
 
+@Entity
 public class Recharge   extends BaseEntity  {
 	User user;
 	String money;
@@ -38,9 +40,11 @@ public class Recharge   extends BaseEntity  {
 		this.moneyrecord = moneyrecord;
 	}
 
+	
+	
+
 
 	
-		
 	}
 
 	

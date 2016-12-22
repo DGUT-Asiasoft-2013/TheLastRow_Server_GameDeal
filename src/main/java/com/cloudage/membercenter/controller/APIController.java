@@ -30,7 +30,7 @@ import com.cloudage.membercenter.service.ICommentService;
 import com.cloudage.membercenter.service.ILikesService;
 
 import com.cloudage.membercenter.service.IPaymentsService;
-
+import com.cloudage.membercenter.service.IRechargeService;
 import com.cloudage.membercenter.service.IUserService;
 
 @RestController
@@ -51,7 +51,10 @@ public class APIController {
 
 
 	@Autowired
-	IPaymentsService PaymentsService;
+	IPaymentsService paymentsService;
+	
+	@Autowired
+	IRechargeService  rechargeService;
 
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	public @ResponseBody String hello() {
@@ -202,17 +205,17 @@ public class APIController {
 
 	@RequestMapping("/me/{user_id}/payments/{page}")
 	public Page<Payments> getPaymentsOfUser(@PathVariable int user_id, @PathVariable int page) {
-		return PaymentsService.findPaymentsOfUser(user_id, page);
+		return paymentsService.findPaymentsOfUser(user_id, page);
 	}
 
 	@RequestMapping("/me/{user_id}/payments/count")
 	public int getPaymentsCountOfuser(@PathVariable int user_id) {
-		return PaymentsService.getPaymentsCountOfUser(user_id);
+		return paymentsService.getPaymentsCountOfUser(user_id);
 	}
 
 	@RequestMapping("/user/{user_id}/payments")
 	public Page<Payments> getPaymentsOfUser(@PathVariable int user_id) {
-		return PaymentsService.findPaymentsOfUser(user_id, 0);
+		return paymentsService.findPaymentsOfUser(user_id, 0);
 	}
 
 	@RequestMapping(value = "/me/{user_id}/payments", method = RequestMethod.POST)
@@ -223,22 +226,22 @@ public class APIController {
 		payments.setAuthor(me);
 		
 		payments.setText(text);
-		return PaymentsService.save(payments);
+		return paymentsService.save(payments);
 
 	}
 	@RequestMapping("/me/{user_id}/recharge/{page}")
 	public Page<Recharge> getRechargeOfUser(@PathVariable int user_id, @PathVariable int page) {
-		return Recharge.findrechargeOfUser(user_id, page);
+		return rechargeService.findRechargeOfUser(user_id, page);
 	}
 
 	@RequestMapping("/me/{user_id}/recharge/count")
 	public int getRechargeCountOfuser(@PathVariable int user_id) {
-		return Recharge.getrechargeCountOfUser(user_id);
+		return rechargeService.getRechargeCountOfUser(user_id);
 	}
 
 	@RequestMapping("/user/{user_id}/recharge")
 	public Page<Recharge> getRechargeOfUser(@PathVariable int user_id) {
-		return Recharge.findrechargeOfUser(user_id, 0);
+		return rechargeService.findRechargeOfUser(user_id, 0);
 	}
 
 	@RequestMapping(value = "/me/{user_id}/Recharge", method = RequestMethod.POST)
@@ -246,9 +249,9 @@ public class APIController {
 		User me = getCurrentUser(request);
 		
 		Recharge recharge = new Recharge();
-		recharge.setAuthor(me);
+		recharge.setUser(me);
 		
-		recharge.setText(text);
+		recharge.setMoneyrecord(text);
 		return rechargeService.save(recharge);
 
 	}
