@@ -121,7 +121,13 @@ public class APIController {
 			return true;
 		}
 	}
-
+	 @RequestMapping(value = "/exit")
+     public void exitServer(HttpServletRequest request){
+      	User me = getCurrentUser(request);
+      	if(me!=null){
+      	request.getSession(true).removeAttribute("uid");
+}
+	 }
 	@RequestMapping(value = "/articles/{userId}")
 	public List<Article> getArticlesByUserID(@PathVariable Integer userId) {
 		return articleService.findAllByAuthorId(userId);

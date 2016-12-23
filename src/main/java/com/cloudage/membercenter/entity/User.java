@@ -16,7 +16,7 @@ public class User extends BaseEntity {
 	String avatar;
 	String money;
 
-	@Column(unique = true)
+	@Column(unique = true,nullable=false)
 	public String getAccount() {
 		return account;
 	}
