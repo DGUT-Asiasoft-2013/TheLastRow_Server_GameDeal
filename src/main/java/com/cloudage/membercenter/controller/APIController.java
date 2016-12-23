@@ -225,13 +225,13 @@ public class APIController {
 	}
 
 	@RequestMapping(value = "/me/{user_id}/payments", method = RequestMethod.POST)
-	public Payments postPayments(@PathVariable int user_id, @RequestParam String text, HttpServletRequest request) {
+	public Payments postPayments(@PathVariable int user_id, @RequestParam String money, HttpServletRequest request) {
 		User me = getCurrentUser(request);
 		
 		Payments payments = new Payments();
 		payments.setAuthor(me);
 		
-		payments.setText(text);
+		payments.setMoneyrecord(money);
 		return paymentsService.save(payments);
 
 	}
@@ -251,13 +251,13 @@ public class APIController {
 	}
 
 	@RequestMapping(value = "/me/{user_id}/Recharge", method = RequestMethod.POST)
-	public Recharge postRecharge(@PathVariable int user_id, @RequestParam String text, HttpServletRequest request) {
+	public Recharge postRecharge(@PathVariable int user_id, @RequestParam String money, HttpServletRequest request) {
 		User me = getCurrentUser(request);
 		
 		Recharge recharge = new Recharge();
 		recharge.setUser(me);
 		
-		recharge.setMoneyrecord(text);
+		recharge.setMoneyrecord(money);
 		return rechargeService.save(recharge);
 
 	}
