@@ -38,4 +38,8 @@ public class DefaultUserService implements IUserService {
 		return userRepo.findUserByEmail(email);
 	}
 
+	@Override
+public	User findByMoney(Integer money){
+		return userRepo.findUserByMoney(money);
+	}
 }

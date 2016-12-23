@@ -12,4 +12,5 @@ public interface IUserService {
 
    
 	User findById(Integer id);
+	User findByMoney(Integer money);
 }
