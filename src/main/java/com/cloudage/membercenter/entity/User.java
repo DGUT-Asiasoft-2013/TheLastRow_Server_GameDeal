@@ -14,7 +14,7 @@ public class User extends BaseEntity {
 	String name;
 	String email;
 	String avatar;
-	String money;
+	int money;
 
 	@Column(unique = true,nullable=false)
 	public String getAccount() {
@@ -67,12 +67,12 @@ public class User extends BaseEntity {
 	}
 
 	@Column(nullable = false)
-	public String getMoney() {
+	public int getMoney() {
 		return money;
 	}
 
 	@Column(nullable = false, unique = true)
-	public void setMoney(String money) {
+	public void setMoney(int money) {
 		this.money = money;
 	}
 	
