@@ -64,8 +64,13 @@ public class APIController {
 
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public User register(@RequestParam String account, @RequestParam String passwordHash, @RequestParam String email,
-			@RequestParam String name, MultipartFile avatar, HttpServletRequest request) {
+	public User register(
+			@RequestParam String account,
+			@RequestParam String passwordHash,
+			@RequestParam String email,
+			@RequestParam String name,
+			MultipartFile avatar, 
+			HttpServletRequest request) {
 
 
 		User user = new User();
@@ -73,7 +78,7 @@ public class APIController {
 		user.setPasswordHash(passwordHash);
 		user.setEmail(email);
 		user.setName(name);
-
+		user.setMoney(0);
 
 		if (avatar != null) {
 			try {
@@ -91,7 +96,10 @@ public class APIController {
 
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public User login(@RequestParam String account, @RequestParam String passwordHash, HttpServletRequest request) {
+	public User login(
+			@RequestParam String account,
+			@RequestParam String passwordHash,
+			HttpServletRequest request) {
 
 		User user = userService.findByAccount(account);
 		if (user != null && user.getPasswordHash().equals(passwordHash)) {
@@ -256,6 +264,10 @@ public class APIController {
 		
 		Recharge recharge = new Recharge();
 		recharge.setUser(me);
+		
+		int mo=(int) (me.getMoney()+Integer.parseInt(text));//ÐÂµÄÓà¶î
+		me.setMoney(mo);
+		userService.save(me);
 		
 		recharge.setMoneyrecord(text);
 		return rechargeService.save(recharge);
