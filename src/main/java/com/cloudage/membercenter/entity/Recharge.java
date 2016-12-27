@@ -7,7 +7,7 @@ import com.cloudage.membercenter.util.BaseEntity;
 import com.cloudage.membercenter.util.DateRecord;
 
 @Entity
-public class Recharge   extends DateRecord {
+public class Recharge  extends DateRecord  {
 	User user;
 	String money;
 	String moneyrecord;

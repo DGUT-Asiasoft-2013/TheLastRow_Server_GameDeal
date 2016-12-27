@@ -1,4 +1,4 @@
-	package com.cloudage.membercenter.util;
+package com.cloudage.membercenter.util;
 
 import java.io.Serializable;
 
