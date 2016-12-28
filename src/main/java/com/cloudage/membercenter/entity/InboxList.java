@@ -19,8 +19,8 @@ public class InboxList extends BaseEntity implements Serializable{
 	
 	Inbox last_inbox;
 	String sign;
-	String send_name;
-	String rec_name;
+	String sendname;
+	String recname;
 	Date createDate;
 	
 	
@@ -36,17 +36,17 @@ public class InboxList extends BaseEntity implements Serializable{
 	public void setSign(String sign) {
 		this.sign = sign;
 	}
-	public String getSend_name() {
-		return send_name;
+	public String getSendname() {
+		return sendname;
 	}
-	public void setSend_name(String send_name) {
-		this.send_name = send_name;
+	public void setSendname(String sendname) {
+		this.sendname = sendname;
 	}
-	public String getRec_name() {
-		return rec_name;
+	public String getRecname() {
+		return recname;
 	}
-	public void setRec_name(String rec_name) {
-		this.rec_name = rec_name;
+	public void setRecname(String recname) {
+		this.recname = recname;
 	}
 	public Date getCreateDate() {
 		return createDate;

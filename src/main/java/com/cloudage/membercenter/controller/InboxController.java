@@ -38,14 +38,14 @@ public class InboxController {
 	@RequestMapping(value="/addInbox", method=RequestMethod.POST)
 	public Inbox addInbox(
 			@RequestParam String content,
-			@RequestParam String send_name,	
+			@RequestParam String sendname,	
 			HttpServletRequest request
 			){
 		Date curDate = new Date(System.currentTimeMillis());// 获取当前时间
 
 		Inbox inbox=new Inbox();
 		inbox.setInboxContent(content);
-		inbox.setSend_user(getUser(send_name));
+		inbox.setSenduser(getUser(sendname));
 		inbox.setIsread(false);
 		inbox.setCreateDate(curDate);
 
@@ -56,15 +56,15 @@ public class InboxController {
 		
 		User user =userService.findById(uid);
 		if(user!=null){
-			inbox.setRec_user(getUser(user.getName()));
+			inbox.setRecuser(getUser(user.getName()));
 		}else{
 			//服务器无登陆状态
 		}
 		String sign;
-		if(user.getName().compareTo(send_name)>0)
-			sign=send_name+"-"+user.getName();
+		if(user.getName().compareTo(sendname)>0)
+			sign=sendname+"-"+user.getName();
 		else
-			sign=user.getName()+"-"+send_name;
+			sign=user.getName()+"-"+sendname;
 		inbox.setSign(sign);
 		
 		Inbox return_inbox = inboxService.save(inbox);
@@ -72,8 +72,8 @@ public class InboxController {
 		if (inboxList==null) {
 			inboxList=new InboxList();
 			inboxList.setLast_inbox(inbox);
-			inboxList.setSend_name(send_name);
-			inboxList.setRec_name(user.getName());
+			inboxList.setSendname(sendname);
+			inboxList.setRecname(user.getName());
 			inboxList.setSign(sign);
 			inboxList.setCreateDate(curDate);
 			inboxService.save(inboxList);

@@ -5,11 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
 import org.springframework.stereotype.Component;
 
 import com.cloudage.membercenter.util.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Component
@@ -26,8 +28,8 @@ public class Inbox extends BaseEntity implements Serializable{
 	
 	
 	String inboxContent;
-	User send_user;
-	User rec_user;
+	User senduser;
+	User recuser;
 	boolean isread;
 	Date createDate;
 	String sign;
@@ -46,20 +48,22 @@ public class Inbox extends BaseEntity implements Serializable{
 	}
 
 	
-	
-	public User getSend_user() {
-		return send_user;
+	@ManyToOne(optional=false)
+	public User getSenduser() {
+		return senduser;
 	}
 
-	public void setSend_user(User send_user) {
-		this.send_user = send_user;
+	public void setSenduser(User senduser) {
+		this.senduser = senduser;
 	}
-	public User getRec_user() {
-		return rec_user;
+	@ManyToOne(optional=false)
+	@JsonIgnore
+	public User getRecuser() {
+		return recuser;
 	}
 
-	public void setRec_user(User rec_user) {
-		this.rec_user = rec_user;
+	public void setRecuser(User recuser) {
+		this.recuser = recuser;
 	}
 	
 	
@@ -71,7 +75,7 @@ public class Inbox extends BaseEntity implements Serializable{
 		this.isread = isread;
 	}
 	
-	@Column(updatable=false)
+	@Column(updatable = false)
 	public Date getCreateDate() {
 		return createDate;
 	}
