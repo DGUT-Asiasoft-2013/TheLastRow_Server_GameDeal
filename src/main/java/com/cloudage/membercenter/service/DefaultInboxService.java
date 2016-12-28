@@ -40,14 +40,6 @@ public class DefaultInboxService implements IInboxService{
 	public InboxList findBySign(String sign){
 		return inboxListRepo.findInboxListBySign(sign);
 	}
-	
-//	@Override
-//	public Page<Inbox> findAllInbox(String name, int i) {
-//		Sort sort = new Sort(Direction.DESC, "createDate");
-//		PageRequest request = new PageRequest(i, 10, sort);
-//		return inboxRepo.findAllInbox(name, request);
-//	}
-	
 
 	@Override
 	public Page<Inbox> inboxGetChat(String text, int page) {
