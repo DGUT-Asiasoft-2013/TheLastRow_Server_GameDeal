@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cloudage.membercenter.entity.Article;
+import com.cloudage.membercenter.entity.Good;
 import com.cloudage.membercenter.entity.Likes;
 import com.cloudage.membercenter.entity.Likes.Key;
 import com.cloudage.membercenter.entity.User;
@@ -21,10 +21,10 @@ public class DefaultLikesService implements ILikesService {
 
 
 	@Override
-	public void addLike(User user, Article article) {
+	public void addLike(User user, Good good) {
 		Likes.Key key = new Key();
 		key.setUser(user);
-		key.setArticle(article);
+		key.setGood(good);
 
 		Likes lk = new Likes();
 		lk.setId(key);
@@ -32,22 +32,22 @@ public class DefaultLikesService implements ILikesService {
 	}
 
 	@Override
-	public void removeLike(User user, Article article) {
+	public void removeLike(User user, Good good) {
 		Likes.Key key = new Key();
 		key.setUser(user);
-		key.setArticle(article);
+		key.setGood(good);
 
 		likesRepo.delete(key);
 	}
 
 	@Override
-	public int countLikes(int articleId) {
-		return likesRepo.likeCountsOfArticle(articleId);
+	public int countLikes(int goodId) {
+		return likesRepo.likeCountsOfGood(goodId);
 	}
 
 	@Override
-	public boolean checkLiked(int userId, int articleId) {
-		return likesRepo.checkLikesExsists(userId, articleId) > 0;
+	public boolean checkLiked(int userId, int goodId) {
+		return likesRepo.checkLikesExsists(userId, goodId) > 0;
 
 	
 	

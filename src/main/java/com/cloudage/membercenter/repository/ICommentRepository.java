@@ -10,10 +10,10 @@ import com.cloudage.membercenter.entity.Comment;
 
 public interface ICommentRepository extends PagingAndSortingRepository<Comment, Integer> {
 
-	@Query("from Comment comment where comment.article.id = ?1")
-	Page<Comment> findAllOfArticleId(int articleId, Pageable page);
+	@Query("from Comment comment where comment.good.id = ?1")
+	Page<Comment> findAllOfGoodId(int goodId, Pageable page);
 
 
-	@Query("select count(*) from Comment comment where comment.article.id = ?1")
-	int commentCountOfArticle(int articleId);
+	@Query("select count(*) from Comment comment where comment.good.id = ?1")
+	int commentCountOfGood(int goodId);
 }

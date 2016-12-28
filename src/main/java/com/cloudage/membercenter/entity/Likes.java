@@ -18,7 +18,7 @@ public class Likes {
 	@Embeddable
 	public static class Key implements Serializable {
 		User user;
-		Article article;
+		Good good;
 
 		@ManyToOne(optional = false)
 		public User getUser() {
@@ -30,19 +30,19 @@ public class Likes {
 		}
 
 		@ManyToOne(optional = false)
-		public Article getArticle() {
-			return article;
+		public Good getGood() {
+			return good;
 		}
 
-		public void setArticle(Article article) {
-			this.article = article;
+		public void setGood(Good good) {
+			this.good = good;
 		}
 
 		@Override
 		public boolean equals(Object obj) {
 			if (obj instanceof Key) {
 				Key other = (Key) obj;
-				return article.getId() == other.article.getId() && user.getId() == other.user.getId();
+				return good.getId() == other.good.getId() && user.getId() == other.user.getId();
 			} else {
 				return false;
 			}
@@ -50,7 +50,7 @@ public class Likes {
 
 		@Override
 		public int hashCode() {
-			return article.getId();
+			return good.getId();
 		}
 	}
 

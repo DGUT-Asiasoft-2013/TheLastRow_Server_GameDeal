@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Comment extends DateRecord {
 	String text;
 	User author;
-	Article article;
+	Good good;
 
 	public String getText() {
 		return text;
@@ -26,8 +26,8 @@ public class Comment extends DateRecord {
 
 	@ManyToOne(optional = false)
 	@JsonIgnore
-	public Article getArticle() {
-		return article;
+	public Good getGood() {
+		return good;
 	}
 
 	public void setText(String text) {
@@ -38,8 +38,8 @@ public class Comment extends DateRecord {
 		this.author = author;
 	}
 
-	public void setArticle(Article article) {
-		this.article = article;
+	public void setGood(Good good) {
+		this.good = good;
 	}
 
 }
