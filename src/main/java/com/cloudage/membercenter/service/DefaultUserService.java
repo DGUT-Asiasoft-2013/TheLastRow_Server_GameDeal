@@ -32,6 +32,10 @@ public class DefaultUserService implements IUserService {
 	public User findById(Integer id) {
 		return userRepo.findOne(id);
 	}
+	@Override
+	public User findByName(String name) {
+		return userRepo.findByName(name);
+	}
 
 	@Override
 	public User findByEmail(String email) {
@@ -42,4 +46,5 @@ public class DefaultUserService implements IUserService {
 public	User findByMoney(Integer money){
 		return userRepo.findUserByMoney(money);
 	}
+	
 }
