@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cloudage.membercenter.entity.Good;
 import com.cloudage.membercenter.entity.User;
-import com.cloudage.membercenter.repository.IArticleRepository;
+
 import com.cloudage.membercenter.repository.IGoodRepository;
 
 @Component

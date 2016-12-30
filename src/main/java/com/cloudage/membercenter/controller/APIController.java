@@ -21,13 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
-import com.cloudage.membercenter.entity.Article;
+//import com.cloudage.membercenter.service.IArticleService;
+//import com.cloudage.membercenter.entity.Article;
+
 import com.cloudage.membercenter.entity.Comment;
 import com.cloudage.membercenter.entity.Good;
 import com.cloudage.membercenter.entity.Payments;
 import com.cloudage.membercenter.entity.Recharge;
 import com.cloudage.membercenter.entity.User;
-import com.cloudage.membercenter.service.IArticleService;
+
 import com.cloudage.membercenter.service.ICommentService;
 import com.cloudage.membercenter.service.IGoodService;
 import com.cloudage.membercenter.service.ILikesService;
@@ -46,8 +48,8 @@ public class APIController {
 	@Autowired
 	IUserService userService;
 
-	@Autowired
-	IArticleService articleService;
+//	@Autowired
+//	IArticleService articleService;
 
 	
 	@Autowired
@@ -278,7 +280,7 @@ public class APIController {
 		return paymentsService.findPaymentsOfUser(user_id, page);
 	}
 
-	@RequestMapping("/me/{user_id}/payments/count")
+	@RequestMapping("/user/{user_id}/payments/count")
 	public int getPaymentsCountOfuser(@PathVariable int user_id) {
 		return paymentsService.getPaymentsCountOfUser(user_id);
 	}
@@ -288,14 +290,23 @@ public class APIController {
 		return paymentsService.findPaymentsOfUser(user_id, 0);
 	}
 
-	@RequestMapping(value = "/me/{user_id}/payments", method = RequestMethod.POST)
-	public Payments postPayments(@PathVariable int user_id, @RequestParam String text, HttpServletRequest request) {
+	@RequestMapping(value = "/user/{good_id}/payments", method = RequestMethod.POST)
+	public Payments postPayments(@PathVariable int good_id, @RequestParam int good_number,HttpServletRequest request) {
 		User me = getCurrentUser(request);
-		
+		Good good=goodService.findOne(good_id);
 		Payments payments = new Payments();
-		payments.setAuthor(me);
+		int good_money=good.getPrice()*good_number;	//		获取商品价格
+		int user_money=me.getMoney();				//		获取用户余额
+		me.setMoney(user_money-good_money);			//		设置用户新的余额
 		
-		payments.setText(text);
+		Recharge recharge=new Recharge();
+		recharge.setUser(me);
+		recharge.setMoneyrecord("-"+good_money);
+		payments.setUser(me);
+		payments.setGood(good);
+		payments.setNumber(good_number);
+		userService.save(me);
+		rechargeService.save(recharge);
 		return paymentsService.save(payments);
 
 	}

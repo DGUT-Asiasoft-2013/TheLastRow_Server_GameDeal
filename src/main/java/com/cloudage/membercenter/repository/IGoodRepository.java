@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.cloudage.membercenter.entity.Article;
 import com.cloudage.membercenter.entity.Good;
 import com.cloudage.membercenter.entity.User;
 

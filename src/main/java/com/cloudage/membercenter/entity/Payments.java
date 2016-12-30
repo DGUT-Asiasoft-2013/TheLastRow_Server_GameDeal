@@ -4,50 +4,36 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import com.cloudage.membercenter.util.BaseEntity;
+import com.cloudage.membercenter.util.DateRecord;
 
 @Entity
-public class Payments extends BaseEntity {
+public class Payments extends DateRecord {
 	User user;
-	String money;
-	String moneyrecord;
+	Good good;
+	int number;
 
 	@ManyToOne(optional=false)
 	public User getUser() {
 		return user;
 	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 	
-
-	public String getMoney() {
-		return money;
+	@ManyToOne(optional=false)
+	public Good getGood() {
+		return good;
 	}
-
-	public void setMoney(String money) {
-		this.money = money;
+	public void setGood(Good good) {
+		this.good = good;
 	}
-
 	
-
-	public String getMoneyrecord() {
-		return moneyrecord;
+	
+	public int getNumber() {
+		return number;
 	}
-
-	public void setMoneyrecord(String moneyrecord) {
-		this.moneyrecord = moneyrecord;
-	}
-
-	public void setText(String text) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setAuthor(User me) {
-		// TODO Auto-generated method stub
-		
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 	
