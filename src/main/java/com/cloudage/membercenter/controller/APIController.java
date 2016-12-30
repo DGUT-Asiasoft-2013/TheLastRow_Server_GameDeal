@@ -23,6 +23,7 @@ import com.cloudage.membercenter.entity.Article;
 import com.cloudage.membercenter.entity.Comment;
 
 import com.cloudage.membercenter.entity.Payments;
+import com.cloudage.membercenter.entity.PrivateMessage;
 import com.cloudage.membercenter.entity.Recharge;
 import com.cloudage.membercenter.entity.User;
 import com.cloudage.membercenter.service.IArticleService;
@@ -30,6 +31,7 @@ import com.cloudage.membercenter.service.ICommentService;
 import com.cloudage.membercenter.service.ILikesService;
 
 import com.cloudage.membercenter.service.IPaymentsService;
+import com.cloudage.membercenter.service.IPrivateMessageService;
 import com.cloudage.membercenter.service.IRechargeService;
 import com.cloudage.membercenter.service.IUserService;
 
@@ -49,7 +51,9 @@ public class APIController {
 	@Autowired
 	ILikesService likesService;
 
-
+	@Autowired
+	IPrivateMessageService privateMessageService;
+	
 	@Autowired
 	IPaymentsService paymentsService;
 	
@@ -265,7 +269,7 @@ public class APIController {
 		Recharge recharge = new Recharge();
 		recharge.setUser(me);
 		
-		int mo=(int) (me.getMoney()+Integer.parseInt(text));//–¬µƒ”‡∂Ó
+		int mo=(int) (me.getMoney()+Integer.parseInt(text));//Êñ∞ÁöÑ‰ΩôÈ¢ù
 		me.setMoney(mo);
 		userService.save(me);
 		
@@ -273,4 +277,37 @@ public class APIController {
 		return rechargeService.save(recharge);
 
 	}
+	@RequestMapping(value = "/privateMessage",method = RequestMethod.POST)
+	public PrivateMessage savePrivateMessage(@RequestParam String privateText,
+			@RequestParam String receiverAccount,
+			HttpServletRequest request
+			){
+
+User user = getCurrentUser(request);
+User receiver = userService.findNum(receiverAccount);
+PrivateMessage privateMessage = new PrivateMessage();
+privateMessage.setPrivateMessageSender(user);
+privateMessage.setPrivateMessageReceiver(receiver);
+privateMessage.setPrivateText(privateText);
+return privateMessageService.save(privateMessage);
+
+}
+	@RequestMapping(value= "/findPrivateMessage/{receiverId}")
+	public Page<PrivateMessage> findPrivateMessageByReceiverId( @PathVariable int receiverId,
+			@RequestParam(defaultValue="0") int page,
+			HttpServletRequest request
+
+			){
+		
+		User user = getCurrentUser(request);//
+
+		return privateMessageService.findPrivateMessagesByReveiverId(receiverId,user.getId(), page);
+	}
+	@RequestMapping(value = "/getPrivateMessageList")
+	public Page<User> getPrivateMessageList(@RequestParam(defaultValue="0") int page,
+			HttpServletRequest request){
+		User user = getCurrentUser(request);
+
+		return privateMessageService.findAllOtherUsersByNum(user.getAccount(),page);
+}
 }

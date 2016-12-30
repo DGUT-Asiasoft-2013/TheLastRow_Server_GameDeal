@@ -46,5 +46,9 @@ public class DefaultUserService implements IUserService {
 public	User findByMoney(Integer money){
 		return userRepo.findUserByMoney(money);
 	}
+	@Override
+	public User findNum(String num){
+		return userRepo.findNum(num);
+}
 	
 }
