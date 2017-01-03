@@ -6,22 +6,22 @@ import javax.persistence.ManyToOne;
 
 import com.cloudage.membercenter.util.DateRecord;
 
-
 @Entity
-public class Equipment extends DateRecord{
+public class EquipmentOfBuy extends DateRecord {
 
 	User owner;
 	GameService gameservice;
 	
-	String equipname;
-	String equipvalue;
+	String equipname;	
+	String minvalue;	
 	String gameid;
 	
 	Integer equipnumber;
 	
 	String[] equippicture;
-	
 
+	
+	
 	@Column(nullable = false)
 	public String getGameid() {
 		return gameid;
@@ -58,17 +58,17 @@ public class Equipment extends DateRecord{
 		this.equipname = equipname;
 	}
 
-	@Column(nullable = false , updatable = false)
-	public String getEquipvalue() {
-		return equipvalue;
+	@Column(updatable = false)
+	public String getMinvalue() {
+		return minvalue;
 	}
 
-	public void setEquipvalue(String equipvalue) {
-		this.equipvalue = equipvalue;
+	public void setMinvalue(String minvalue) {
+		this.minvalue = minvalue;
 	}
 
-	@Column(nullable = false , columnDefinition = "int default 1" , updatable = false)
-	public int getEquipnumber() {
+	@Column(updatable = false)
+	public Integer getEquipnumber() {
 		return equipnumber;
 	}
 
@@ -76,7 +76,7 @@ public class Equipment extends DateRecord{
 		this.equipnumber = equipnumber;
 	}
 
-	@Column(nullable = true)
+	
 	public String[] getEquippicture() {
 		return equippicture;
 	}
@@ -84,5 +84,6 @@ public class Equipment extends DateRecord{
 	public void setEquippicture(String[] equippicture) {
 		this.equippicture = equippicture;
 	}
+
 	
 }
