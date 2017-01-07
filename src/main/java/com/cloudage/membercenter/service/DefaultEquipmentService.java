@@ -3,6 +3,8 @@ package com.cloudage.membercenter.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
@@ -57,13 +59,25 @@ public class DefaultEquipmentService implements IEquipmentService {
 
 	@Override
 	public List<Equipment> getAllEquipment() {
-		Sort sort = new Sort(Direction.ASC,"createDate");
+		Sort sort = new Sort(Direction.DESC,"createDate");
 		return (List<Equipment>) equipRepo.findAll(sort);
 	}
 
 	@Override
 	public List<Equipment> findByOwnerId(Integer id) {
 		return equipRepo.findEquipmentByOwnerId(id);
+	}
+
+	@Override
+	public List<Equipment> findBySellOrBuy(Boolean isSell) {
+		return equipRepo.findEquipmentBySellOrBuy(isSell);
+	}
+
+	@Override
+	public Page<Equipment> getByCreateDatePage(int page) {
+		Sort sort = new Sort(Direction.DESC,"createDate");
+		PageRequest pageRequest = new PageRequest(page, 10, sort);
+		return equipRepo.findAll(pageRequest);
 	}
 
 }

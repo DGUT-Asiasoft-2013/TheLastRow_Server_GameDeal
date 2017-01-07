@@ -20,7 +20,16 @@ public class Equipment extends DateRecord{
 	Integer equipnumber;
 	
 	String[] equippicture;
+	Boolean isSell;
 	
+	@Column(nullable = false)
+	public Boolean getIsSell() {
+		return isSell;
+	}
+
+	public void setIsSell(Boolean isSell) {
+		this.isSell = isSell;
+	}
 
 	@Column(nullable = false)
 	public String getGameid() {
