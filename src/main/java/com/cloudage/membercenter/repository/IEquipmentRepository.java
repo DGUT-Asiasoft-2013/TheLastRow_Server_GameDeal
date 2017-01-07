@@ -32,7 +32,7 @@ public interface IEquipmentRepository extends PagingAndSortingRepository<Equipme
 	@Query("from Equipment e where e.gameservice.gameservicename = ?1 and e.gameservice.game.gamename = ?2")
 	List<Equipment> findEquipmentByGameServiceName(String gameservicename , String gamename);
 
-	@Query("from Equipment e where e.equipname like '%?1%'")
+	@Query("from Equipment e where e.equipname like %?1%")
 	List<Equipment> findEquipmentByEquipName(String equipname);
 	
 	@Query("from Equipment e where e.isSell = ?1")
