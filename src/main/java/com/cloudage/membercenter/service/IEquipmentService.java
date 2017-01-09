@@ -15,6 +15,7 @@ public interface IEquipmentService {
 
 	Equipment save(Equipment equipment);
 	
+	Equipment findById(Integer id);
 	
 	List<Equipment> findByOwner(User user);
 	
@@ -31,6 +32,8 @@ public interface IEquipmentService {
 	List<Equipment> getAllEquipment();
 	
 	Page<Equipment> getByCreateDatePage(int page);
+	
+	Page<Equipment> getByLookCheckPage(int page);
 	
 	List<Equipment> findBySellOrBuy(Boolean isSell);
 }

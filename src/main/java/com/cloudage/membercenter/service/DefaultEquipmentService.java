@@ -80,4 +80,18 @@ public class DefaultEquipmentService implements IEquipmentService {
 		return equipRepo.findAll(pageRequest);
 	}
 
+	@Override
+	public Page<Equipment> getByLookCheckPage(int page) {
+		Sort sort = new Sort(Direction.DESC , "lookcheck");
+		PageRequest pageRequest = new PageRequest(page, 20, sort);
+		return equipRepo.findAll(pageRequest);
+	}
+
+	@Override
+	public Equipment findById(Integer id) {
+		return equipRepo.findEquipmentById(id);
+	}
+	
+	
+
 }

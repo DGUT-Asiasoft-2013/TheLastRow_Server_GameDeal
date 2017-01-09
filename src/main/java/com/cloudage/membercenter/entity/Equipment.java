@@ -21,7 +21,18 @@ public class Equipment extends DateRecord{
 	
 	String[] equippicture;
 	Boolean isSell;
+	Integer lookcheck;			//统计点击率
 	
+	
+	@Column(updatable = true , columnDefinition = "int default 0" , nullable = true)
+	public Integer getLookcheck() {
+		return lookcheck;
+	}
+
+	public void setLookcheck(Integer lookcheck) {
+		this.lookcheck = lookcheck;
+	}
+
 	@Column(nullable = false)
 	public Boolean getIsSell() {
 		return isSell;
