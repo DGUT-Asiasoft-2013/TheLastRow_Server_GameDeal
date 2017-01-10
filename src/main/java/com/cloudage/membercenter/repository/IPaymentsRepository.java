@@ -13,8 +13,11 @@ public interface IPaymentsRepository extends PagingAndSortingRepository<Payments
 	@Query("from Payments payments where payments.user.id = ?1")
 	Page<Payments> findAllOfUserId(int UserId, Pageable page);
 
-
+	@Query("from Payments payments where payments.good.id=?1")
+	Page<Payments> findAllByGoodId(int goodId,Pageable page);
+	
 	@Query("select count(*) from Payments payments where payments.user.id = ?1")
 	int paymentsCountOfUser(int userId);
 
+	
 }

@@ -1,6 +1,5 @@
 package com.cloudage.membercenter.entity;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 

@@ -19,7 +19,5 @@ public interface IUserRepository extends PagingAndSortingRepository<User, Intege
     User findUserByMoney(Integer money);
     @Query("from User user where user.name = ?1")
 	User findByName(String name);
-    @Query("from User u where u.account=?1")
-    User findNum(String num);
 
 }

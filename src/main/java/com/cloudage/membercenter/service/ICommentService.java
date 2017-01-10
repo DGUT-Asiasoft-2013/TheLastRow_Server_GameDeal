@@ -5,9 +5,9 @@ import org.springframework.data.domain.Page;
 import com.cloudage.membercenter.entity.Comment;
 
 public interface ICommentService {
-	Page<Comment> findCommentsOfArticle(int articleId, int page);
+	Page<Comment> findCommentsOfGood(int goodId, int page);
 
 	Comment save(Comment comment);
 
-	int getCommentCountOfArticle(int articleId);
+	int getCommentCountOfGood(int goodId);
 }
