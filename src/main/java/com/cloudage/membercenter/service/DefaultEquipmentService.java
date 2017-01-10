@@ -80,4 +80,9 @@ public class DefaultEquipmentService implements IEquipmentService {
 		return equipRepo.findAll(pageRequest);
 	}
 
+	@Override
+	public Equipment findEquipmentByid(int equipId) {
+		return equipRepo.findEquipmentById(equipId);
+	}
+
 }

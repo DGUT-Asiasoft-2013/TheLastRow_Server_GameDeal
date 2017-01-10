@@ -33,4 +33,6 @@ public interface IEquipmentService {
 	Page<Equipment> getByCreateDatePage(int page);
 	
 	List<Equipment> findBySellOrBuy(Boolean isSell);
+	
+	Equipment findEquipmentByid(int equipId);
 }

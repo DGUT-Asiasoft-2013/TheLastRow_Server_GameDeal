@@ -67,7 +67,7 @@ public class Equipment extends DateRecord{
 		this.equipname = equipname;
 	}
 
-	@Column(nullable = false , updatable = false)
+//	@Column(nullable = false , updatable = false)
 	public String getEquipvalue() {
 		return equipvalue;
 	}
@@ -76,7 +76,7 @@ public class Equipment extends DateRecord{
 		this.equipvalue = equipvalue;
 	}
 
-	@Column(nullable = false , columnDefinition = "int default 1" , updatable = false)
+	@Column(nullable = false , columnDefinition = "int default 1" , updatable = true)
 	public int getEquipnumber() {
 		return equipnumber;
 	}

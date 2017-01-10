@@ -9,9 +9,27 @@ import com.cloudage.membercenter.util.DateRecord;
 @Entity
 public class Payments extends DateRecord {
 	User user;
-	Good good;
 	int number;
-
+	int state;
+	Equipment equipment;
+	
+	
+	@ManyToOne(optional=false)
+	public Equipment getEquipment() {
+		return equipment;
+	}
+	
+	public void setEquipment(Equipment equipment) {
+		this.equipment = equipment;
+	}
+	
+	
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
+	}
 	@ManyToOne(optional=false)
 	public User getUser() {
 		return user;
@@ -20,14 +38,7 @@ public class Payments extends DateRecord {
 		this.user = user;
 	}
 	
-	@ManyToOne(optional=false)
-	public Good getGood() {
-		return good;
-	}
-	public void setGood(Good good) {
-		this.good = good;
-	}
-	
+
 	
 	public int getNumber() {
 		return number;

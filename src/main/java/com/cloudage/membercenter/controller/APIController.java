@@ -25,12 +25,15 @@ import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 //import com.cloudage.membercenter.entity.Article;
 
 import com.cloudage.membercenter.entity.Comment;
+import com.cloudage.membercenter.entity.Equipment;
 import com.cloudage.membercenter.entity.Good;
+import com.cloudage.membercenter.entity.Likes;
 import com.cloudage.membercenter.entity.Payments;
 import com.cloudage.membercenter.entity.Recharge;
 import com.cloudage.membercenter.entity.User;
 
 import com.cloudage.membercenter.service.ICommentService;
+import com.cloudage.membercenter.service.IEquipmentService;
 import com.cloudage.membercenter.service.IGoodService;
 import com.cloudage.membercenter.service.ILikesService;
 
@@ -64,6 +67,9 @@ public class APIController {
 	
 	@Autowired
 	IRechargeService  rechargeService;
+	
+	@Autowired
+	IEquipmentService equimentService;
 
 	@RequestMapping(value = "/hello", method = RequestMethod.GET)
 	public @ResponseBody String hello() {
@@ -187,6 +193,34 @@ public class APIController {
 			return true;
 		}
 	}
+	@RequestMapping(value = "/changeInfo", method = RequestMethod.POST)
+	public boolean changeInfo(@RequestParam String name,
+							@RequestParam String email,
+							MultipartFile avatar,
+							HttpServletRequest request
+			) {
+		User user = userService.findByEmail(email);
+		if (user != null) {
+			
+			user.setName(name);
+			
+			if (avatar != null) {
+				try {
+
+					String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
+					FileUtils.copyInputStreamToFile(avatar.getInputStream(), new File(realPath, user.getAccount() + ".png"));
+					user.setAvatar("upload/" + user.getAccount() + ".png");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			userService.save(user);
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 	 @RequestMapping(value = "/exit")
      public void exitServer(HttpServletRequest request){
       	User me = getCurrentUser(request);
@@ -235,16 +269,21 @@ public class APIController {
 	}
 
 	@RequestMapping(value = "/good/{good_id}/comments", method = RequestMethod.POST)
-	public Comment postComment(@PathVariable int good_id, @RequestParam String text, HttpServletRequest request) {
+	public Comment postComment(@PathVariable int good_id, @RequestParam String text,@RequestParam float score, HttpServletRequest request) {
 		User me = getCurrentUser(request);
-		Good good = goodService.findOne(good_id);
+//		Good good = goodService.findOne(good_id);
+		Equipment equipment=equimentService.findEquipmentByid(good_id);
 		Comment comment = new Comment();
 		comment.setAuthor(me);
-		comment.setGood(good);
+		comment.setEquipment(equipment);
 		comment.setText(text);
+		comment.setScore(score);
 		return commentService.save(comment);
 	}
 
+	
+	
+	
 	@RequestMapping("/good/{good_id}/likes")
 	public int countLikes(@PathVariable int good_id) {
 		return likesService.countLikes(good_id);
@@ -256,6 +295,12 @@ public class APIController {
 		return likesService.checkLiked(me.getId(), good_id);
 	}
 
+	@RequestMapping("/user/{user_id}/likes")
+	public Page<Likes> getUserLikes(@PathVariable int user_id,HttpServletRequest request){
+		return likesService.getLikesByUserId(user_id,0);
+		
+	}
+	
 	@RequestMapping(value = "/good/{good_id}/likes", method = RequestMethod.POST)
 	public int changeLikes(@PathVariable int good_id, @RequestParam boolean likes, HttpServletRequest request) {
 		User me = getCurrentUser(request);
@@ -269,47 +314,16 @@ public class APIController {
 		return likesService.countLikes(good_id);
 	}
 
+	
+	
+	
+	
 	@RequestMapping("good/s/{keyword}")
 	public Page<Good> searchGoodsWithKeyword(@PathVariable String keyword,
 			@RequestParam(defaultValue = "0") int page) {
 		return goodService.searchEquipWithKeyword(keyword, page);
 	}
 
-	@RequestMapping("/me/{user_id}/payments/{page}")
-	public Page<Payments> getPaymentsOfUser(@PathVariable int user_id, @PathVariable int page) {
-		return paymentsService.findPaymentsOfUser(user_id, page);
-	}
-
-	@RequestMapping("/user/{user_id}/payments/count")
-	public int getPaymentsCountOfuser(@PathVariable int user_id) {
-		return paymentsService.getPaymentsCountOfUser(user_id);
-	}
-
-	@RequestMapping("/user/{user_id}/payments")
-	public Page<Payments> getPaymentsOfUser(@PathVariable int user_id) {
-		return paymentsService.findPaymentsOfUser(user_id, 0);
-	}
-
-	@RequestMapping(value = "/user/{good_id}/payments", method = RequestMethod.POST)
-	public Payments postPayments(@PathVariable int good_id, @RequestParam int good_number,HttpServletRequest request) {
-		User me = getCurrentUser(request);
-		Good good=goodService.findOne(good_id);
-		Payments payments = new Payments();
-		int good_money=good.getPrice()*good_number;	//		获取商品价格
-		int user_money=me.getMoney();				//		获取用户余额
-		me.setMoney(user_money-good_money);			//		设置用户新的余额
-		
-		Recharge recharge=new Recharge();
-		recharge.setUser(me);
-		recharge.setMoneyrecord("-"+good_money);
-		payments.setUser(me);
-		payments.setGood(good);
-		payments.setNumber(good_number);
-		userService.save(me);
-		rechargeService.save(recharge);
-		return paymentsService.save(payments);
-
-	}
 	@RequestMapping("/me/{user_id}/recharge/{page}")
 	public Page<Recharge> getRechargeOfUser(@PathVariable int user_id, @PathVariable int page) {
 		return rechargeService.findRechargeOfUser(user_id, page);
