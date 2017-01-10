@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.expression.spel.ast.OperatorPower;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -222,12 +223,19 @@ public class EquipmentController {
 			return equipmentService.findBySellOrBuy(isSell);
 		}
 		
+		//最新前10
 		@RequestMapping(value = "getequipmentnew10" , method = RequestMethod.GET)
 		@ResponseBody
 		public Page<Equipment> getNew10(){
 			return equipmentService.getByCreateDatePage(0);
 		}
 		
+		//获取点击率前20
+		@RequestMapping(value = "getequipmentcheck20" , method = RequestMethod.GET)
+		@ResponseBody
+		public Page<Equipment> getEquipmentByLookCheck(){
+			return equipmentService.getByLookCheckPage(0);
+		}
 		
 		///////////////////////////上  传  数  据  区  //////////////////
 		
@@ -251,6 +259,7 @@ public class EquipmentController {
 			equipment.setEquipvalue(equipvalue);
 			equipment.setEquipnumber(Integer.valueOf(equipnumber));
 			equipment.setGameid(gameid);
+			equipment.setLookcheck(0);
 			if (isSell.equals("true")) {
 				equipment.setIsSell(true);
 			}
@@ -297,7 +306,19 @@ public class EquipmentController {
 			return equipmentofbuyService.save(equipmentOfBuy);
 		}
 		
-		
+		@RequestMapping(value = "saveLookCheck" , method = RequestMethod.POST)
+		public boolean saveLookCheck(
+				@RequestParam String id){
+			Integer equipId = Integer.parseInt(id);
+			Equipment equipment = equipmentService.findById(equipId);
+			if (equipment == null) {
+				return false;
+			}else {
+				equipment.setLookcheck(equipment.getLookcheck() + 1);
+				equipmentService.save(equipment);
+				return true;
+			}
+		}
 		
 		////////////////////////自   定   义   方   法 ///////////////////////////////////////
 		public User getCurrentUser(HttpServletRequest request){

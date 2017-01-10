@@ -17,6 +17,9 @@ import com.cloudage.membercenter.entity.User;
 @Repository
 public interface IEquipmentRepository extends PagingAndSortingRepository<Equipment, Integer>{
 	
+	@Query("from Equipment e where e.id = ?1")
+	Equipment findEquipmentById(Integer id);
+	
 	@Query("from Equipment e where e.owner = ?1")
 	List<Equipment> findEquipmentByOwner(User user);
 	
