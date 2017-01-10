@@ -46,4 +46,6 @@ public class DefaultPaymentsService implements IPaymentsService {
 	public Payments findPaymentsById(int payId) {
 		return paymentsRepo.findPaymentById(payId);
 	}
+
 }
+

@@ -19,4 +19,6 @@ public interface ILikesRepository extends PagingAndSortingRepository<Likes, Like
 	
 	@Query("from Likes likes where likes.id.user.id=?1")
 	Page<Likes> getLikesByUserID(int user_id,Pageable pageable);
+
 }
+

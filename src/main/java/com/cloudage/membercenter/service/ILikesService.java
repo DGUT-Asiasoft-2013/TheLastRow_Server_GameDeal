@@ -16,6 +16,7 @@ public interface ILikesService {
 
 	int countLikes(int goodId);
 
+
 	boolean checkLiked(int userId, int goodId);
 	
 

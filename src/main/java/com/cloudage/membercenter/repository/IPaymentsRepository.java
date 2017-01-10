@@ -24,4 +24,5 @@ public interface IPaymentsRepository extends PagingAndSortingRepository<Payments
 
 	@Query("from Payments p where p.id=?1")
 	Payments findPaymentById(int payId);
+
 }

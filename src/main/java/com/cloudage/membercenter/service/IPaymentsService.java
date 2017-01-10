@@ -17,4 +17,6 @@ public interface IPaymentsService {
 	Page<Payments> getPaymentsByState(int state,int authorId,int userId,int page);
 	
 	Payments findPaymentsById(int payId);
+
 }
+

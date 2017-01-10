@@ -41,4 +41,6 @@ public interface IEquipmentRepository extends PagingAndSortingRepository<Equipme
 	@Query("from Equipment e where e.isSell = ?1")
 	List<Equipment> findEquipmentBySellOrBuy(Boolean isSell);
 	
+
 }
+
