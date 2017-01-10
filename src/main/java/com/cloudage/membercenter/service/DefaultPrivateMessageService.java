@@ -35,13 +35,13 @@ public class DefaultPrivateMessageService implements IPrivateMessageService {
 	@Override
 	public Page<PrivateMessage> getPrivateMessageList(int id , int page) {
 		Sort sort =new Sort(Direction.DESC,"createDate");
-		PageRequest pageRequest=new PageRequest(page,30, sort);
+		PageRequest pageRequest=new PageRequest(page,80, sort);
 		return iPrivateMessageRepo.findPrivateMessageListBySenderId(id,pageRequest);
 	}
 	@Override
 	public Page<User> findAllOtherUsersByNum(String num , int page) {
 		Sort sort =new Sort(Direction.ASC,"account");
-		PageRequest pageRequest=new PageRequest(page,30, sort);
+		PageRequest pageRequest=new PageRequest(page,80, sort);
 		return iPrivateMessageRepo.findAllOtherUserByNum(num,pageRequest);
 	}
 
