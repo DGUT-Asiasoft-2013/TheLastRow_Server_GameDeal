@@ -18,5 +18,5 @@ public interface IPrivateMessageRepository extends PagingAndSortingRepository<Pr
 	Page<PrivateMessage> findPrivateMessageListBySenderId(int id, Pageable page);
 
 	@Query("from User u where u.account !=?1")
-	Page<User> findAllOtherUserByNum(String num,Pageable page);//查找其他的所有用户
+	Page<User> findAllOtherUserByNum(String num,Pageable page);
 }
