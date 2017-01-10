@@ -10,7 +10,7 @@ public interface IUserService {
 
 	User findByEmail(String email);
 
-   
+	User findNum(String num);
 	User findById(Integer id);
 	User findByMoney(Integer money);
 	User findByName(String name);

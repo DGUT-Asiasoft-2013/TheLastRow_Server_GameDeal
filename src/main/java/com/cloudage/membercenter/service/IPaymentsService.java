@@ -14,5 +14,7 @@ public interface IPaymentsService {
 
 	int getPaymentsCountOfUser(int UserId);
 
+	Page<Payments> getPaymentsByState(int state,int authorId,int userId,int page);
 	
+	Payments findPaymentsById(int payId);
 }

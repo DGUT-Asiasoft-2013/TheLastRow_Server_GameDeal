@@ -1,6 +1,7 @@
 package com.cloudage.membercenter.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,8 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.expression.spel.ast.OperatorPower;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +55,7 @@ public class EquipmentController {
 	@Autowired
 	IEquipmentOfBuyService equipmentofbuyService;
 	
+	////////////////////////////搜   索   公   司///////////////////////////////
 	//获得所有公司
 	@RequestMapping(value = "/getcompany" , method = RequestMethod.GET)
 	@ResponseBody
@@ -67,6 +71,7 @@ public class EquipmentController {
 		return companyService.findByCompanyName(companyname);
 	}
 	
+	//////////////////////////搜    索   游   戏////////////////////////////////
 	//获得所有游戏
 	@RequestMapping(value = "/getgame" , method = RequestMethod.GET)
 	@ResponseBody
@@ -90,6 +95,7 @@ public class EquipmentController {
 		return gameService.findByGameName(gamename);
 	}
 	
+	/////////////////////////////搜   索   区   服///////////////////////////////////
 	//获得所有游戏区服
 	@RequestMapping(value = "/getgameservice" , method = RequestMethod.GET)
 	@ResponseBody
@@ -113,6 +119,7 @@ public class EquipmentController {
 		return gameServiceService.findByGameServiceName(gameservicename,gamename);
 	}
 	
+	///////////////////////////////搜   索   装   备///////////////////////////////////
 	//获得所有装备
 	@RequestMapping(value = "/getequipment" , method = RequestMethod.GET)
 	@ResponseBody
@@ -160,7 +167,7 @@ public class EquipmentController {
 		return equipmentService.findByEquipName(equipname);
 	}
 	
-	//////////////////////////////////////
+	//////////////////////////////////////求购
 	//获得所有装备
 		@RequestMapping(value = "/getequipmentofbuy" , method = RequestMethod.GET)
 		@ResponseBody
@@ -207,11 +214,27 @@ public class EquipmentController {
 		public List<EquipmentOfBuy> findEquipmentofbuyByEquipmentName(@PathVariable String equipname){
 			return equipmentofbuyService.findByEquipName(equipname);
 		}
-	
-		public User getCurrentUser(HttpServletRequest request){
-			HttpSession session = request.getSession(true);
-			Integer uid = (Integer) session.getAttribute("uid");
-			return userService.findById(uid);
+		
+		////////////////////////////////////Boolean判定
+		//通过Boolean判定是出售还是收购
+		@RequestMapping(value = "getequipment/byboolean/{issell}" , method = RequestMethod.GET)
+		@ResponseBody
+		public List<Equipment> findEquipmentBySellOrBuy(@PathVariable Boolean isSell){
+			return equipmentService.findBySellOrBuy(isSell);
+		}
+		
+		//最新前10
+		@RequestMapping(value = "getequipmentnew10" , method = RequestMethod.GET)
+		@ResponseBody
+		public Page<Equipment> getNew10(){
+			return equipmentService.getByCreateDatePage(0);
+		}
+		
+		//获取点击率前20
+		@RequestMapping(value = "getequipmentcheck20" , method = RequestMethod.GET)
+		@ResponseBody
+		public Page<Equipment> getEquipmentByLookCheck(){
+			return equipmentService.getByLookCheckPage(0);
 		}
 		
 		///////////////////////////上  传  数  据  区  //////////////////
@@ -225,7 +248,8 @@ public class EquipmentController {
 				@RequestParam String equipvalue,
 				@RequestParam String equipnumber,
 				@RequestParam String gameid,
-//				MultipartFile picture,
+				@RequestParam String isSell,
+				MultipartFile[] pictures,
 				HttpServletRequest request){
 			User owner = getCurrentUser(request);
 			Equipment equipment = new Equipment();
@@ -235,16 +259,19 @@ public class EquipmentController {
 			equipment.setEquipvalue(equipvalue);
 			equipment.setEquipnumber(Integer.valueOf(equipnumber));
 			equipment.setGameid(gameid);
+			equipment.setLookcheck(0);
+			if (isSell.equals("true")) {
+				equipment.setIsSell(true);
+			}
+			if (isSell.equals("false")) {
+				equipment.setIsSell(false);
+			}
 			
-
-//			if(picture!=null){
-//				try{
-//					String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
-//					FileUtils.copyInputStreamToFile(picture.getInputStream(), new File(realPath,".png"));
-//				}catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
+			String[] picturePath = saveEquipmentPicture(request, pictures, equipname, owner.getName());
+			
+			if (picturePath != null) {
+				equipment.setEquippicture(picturePath);
+			}
 			
 			return equipmentService.save(equipment);
 		}
@@ -258,6 +285,7 @@ public class EquipmentController {
 				@RequestParam String minvalue,
 				@RequestParam String equipnumber,
 				@RequestParam String gameid,
+				MultipartFile[] pictures,
 				HttpServletRequest request){
 			User owner = getCurrentUser(request);
 			EquipmentOfBuy equipmentOfBuy = new EquipmentOfBuy();
@@ -267,6 +295,77 @@ public class EquipmentController {
 			equipmentOfBuy.setMinvalue(minvalue);
 			equipmentOfBuy.setGameid(gameid);
 			equipmentOfBuy.setEquipnumber(Integer.valueOf(equipnumber));
+			
+
+			String[] picturePath = saveEquipmentPicture(request, pictures, equipname, owner.getName());
+			
+			if (picturePath != null) {
+				equipmentOfBuy.setEquippicture(picturePath);
+			}
+			
 			return equipmentofbuyService.save(equipmentOfBuy);
+		}
+		
+		@RequestMapping(value = "saveLookCheck" , method = RequestMethod.POST)
+		public boolean saveLookCheck(
+				@RequestParam String id){
+			Integer equipId = Integer.parseInt(id);
+			Equipment equipment = equipmentService.findById(equipId);
+			if (equipment == null) {
+				return false;
+			}else {
+				equipment.setLookcheck(equipment.getLookcheck() + 1);
+				equipmentService.save(equipment);
+				return true;
+			}
+		}
+		
+		////////////////////////自   定   义   方   法 ///////////////////////////////////////
+		public User getCurrentUser(HttpServletRequest request){
+			HttpSession session = request.getSession(true);
+			Integer uid = (Integer) session.getAttribute("uid");
+			return userService.findById(uid);
+		}
+		
+		
+		public String[] saveEquipmentPicture(HttpServletRequest request , MultipartFile[] pictures , String equipname , String ownername){
+			
+			List<String> pictureNameList = new ArrayList<String>();
+			String[] equipmentPicturePath = null;
+			
+			if(pictures != null && pictures.length > 0){
+				for (int i = 0 ; i < pictures.length; i++){
+					MultipartFile picutre = pictures[i];
+					
+					if (!picutre.isEmpty()) {
+						try{
+							String realPath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload");
+							
+							File userFile = new File(realPath , ownername);
+							
+							if (!userFile.exists()) {
+								userFile.mkdir();
+							}
+							
+							String pictureName = equipname + picutre.getOriginalFilename() + ".png";
+							FileUtils.copyInputStreamToFile(picutre.getInputStream(), new File(userFile , pictureName));
+							
+							pictureNameList.add("upload/" + ownername + "/" + pictureName);
+							
+						}catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			
+			if (pictureNameList.size() > 0) {
+				equipmentPicturePath = new String[pictureNameList.size()];
+				for(int i = 0 ; i < pictureNameList.size() ; i++){
+					equipmentPicturePath[i] = pictureNameList.get(i);
+				}
+			}
+			
+			return equipmentPicturePath;
 		}
 }

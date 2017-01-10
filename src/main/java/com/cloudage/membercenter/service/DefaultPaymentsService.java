@@ -34,4 +34,16 @@ public class DefaultPaymentsService implements IPaymentsService {
 	public int getPaymentsCountOfUser(int userId) {
 		return paymentsRepo.paymentsCountOfUser(userId);
 	}
+
+	@Override
+	public Page<Payments> getPaymentsByState(int state,int authorId,int userId,int page) {
+		Sort sort = new Sort(Direction.DESC, "createDate");
+		PageRequest pageReqeust = new PageRequest(page, 10, sort);
+		return paymentsRepo.getPaymentsByState(state,authorId,userId,pageReqeust);
+	}
+
+	@Override
+	public Payments findPaymentsById(int payId) {
+		return paymentsRepo.findPaymentById(payId);
+	}
 }
