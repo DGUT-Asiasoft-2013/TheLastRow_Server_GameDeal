@@ -1,19 +1,14 @@
 package com.cloudage.membercenter.service;
 
-import org.springframework.data.domain.Page;
 
-import com.cloudage.membercenter.entity.Comment;
 import com.cloudage.membercenter.entity.Payments;
 import com.cloudage.membercenter.entity.User;
 
-public interface IPaymentsService {
+public class IPaymentsService {
 
 
-	Page<Payments> findPaymentsOfUser(int UserId, int page);
-
-	Payments save(Payments payments);
-	
-	int getPaymentsCountOfUser(int UserId);
-
-	User findOne(int user_id);
+	void addPayments(User user, Payments payments);
+	void removePayments(User user,Payments payments);
+	int countPayments(int userId);
+	boolean checkPayed(int paymentsId);
 }

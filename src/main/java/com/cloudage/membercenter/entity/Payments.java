@@ -24,13 +24,5 @@ public class Payments extends BaseEntity{
 	public void setRecord(String record) {
 		this.cashrecord = record;
 	}
-	public void setAuthor(User me) {
-		// TODO Auto-generated method stub
-		
-	}
-	public void setText(String text) {
-		// TODO Auto-generated method stub
-		
-	}
      	
 }

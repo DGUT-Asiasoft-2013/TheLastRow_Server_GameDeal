@@ -214,35 +214,5 @@ public class APIController {
 			){
 return articleService.searchTextWithKeyword(keyword,page);
 	}
-	@RequestMapping("/me/{user_id}/payments/{page}")
-	public Page<Payments> getPaymentsOfUser(
-			@PathVariable int user_id,
-			@PathVariable int page){
-		return PaymentsService.findPaymentsOfUser(user_id, page);
-	}
 
-	@RequestMapping("/me/{user_id}/payments/count")
-	public int getPaymentsCountOfuser(@PathVariable int user_id){
-		return PaymentsService.getPaymentsCountOfUser(user_id);
-	}
-
-	@RequestMapping("/article/{article_id}/comments")
-	public Page<Payments> getPaymentsOfUser(
-			@PathVariable int user_id){
-		return PaymentsService.findPaymentsOfUser(user_id, 0);
-	}
-
-	@RequestMapping(value = "/me/{user_id}/payments", method = RequestMethod.POST)
-	public Payments postPayments(
-			@PathVariable int user_id,
-			@RequestParam String text,
-			HttpServletRequest request){
-		User me = getCurrentUser(request);
-		User user = PaymentsService.findOne(user_id);
-		Payments payments = new Payments();
-		payments.setAuthor(me);
-		payments.setUser(user);
-		payments.setText(text);
-		return PaymentsService.save(payments);
-	}
 }
